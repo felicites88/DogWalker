@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var walkers = require('./routes/walkers');
+var clients = require('./routes/clients');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/walkers', walkers);
+app.use('/clients', clients);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -49,6 +51,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+//walkers
 app.use('/walkers/:id', function (req, res, next) {
   console.log('Request Type:', req.method);
   next();
@@ -58,6 +61,19 @@ app.get('/walkers/:id', function (req, res, next) {
   Walker.findById(req.params.id, function(err, walker){
     if(err) res.send(err);
     res.json(walker);
+  });
+});
+
+//clients
+app.use('/clients/:id', function (req, res, next) {
+  console.log('Request Type:', req.method);
+  next();
+});
+
+app.get('/clients/:id', function (req, res, next) {
+  Client.findById(req.params.id, function(err, client){
+    if(err) res.send(err);
+    res.json(client);
   });
 });
 
